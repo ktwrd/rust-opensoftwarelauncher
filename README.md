@@ -11,4 +11,4 @@ Open Software Launcher (crab edition)
   [![Licence](https://img.shields.io/github/license/DeclanChidlow/Template?style=flat-square&logoColor=white)](https://github.com/DeclanChidlow/Template/blob/main/LICENCE)
 </h1>
 
-A rust implemntation of OpenSoftwareLauncher
+A Rust implemntation of OpenSoftwareLauncher
