@@ -1,4 +1,4 @@
-use serde_json::{Result};
+//use serde_json::{Result};
 use tokio;
 
 mod com;
@@ -21,11 +21,9 @@ async fn main() {
 
     let d: Details = details_deser();
 
-    let connection = osl_connect(d.url.clone()).await;
-
     match d.token.clone().len() {
         0 => {
-        let token = osl_token_grant(d.clone()).await.Data.Token.Token;
+        let token = osl_token_grant(d.clone()).await.data.token.token;
         println!("this program requires a token, please inser in details.json\n{:?}", token);
         return
         },
@@ -39,7 +37,6 @@ async fn main() {
 
         println!("Help\n\n--version (current, latest) | shows the version given");
         return
-
     };
 
 
@@ -52,23 +49,16 @@ async fn main() {
 
             match &a2 as &str {
                 
-                "current" => println!("{}", osl_connect(d.url.clone()).await.Version),
+                "current" => println!("{}", osl_connect(d.url.clone()).await.version),
                             
-                "latest" => println!("{:?}", osl_release(d.clone(), String::from("latest")).await),
+                "latest" => println!("{:?}", osl_release(d.clone()).await),
                              
                 _ => println!("Options\n--current, --latest")
             };
         },
-
         _ => println!("invalid Command"),
-    
     };
-
-
-
-
 }
-                   
 
     /*
 

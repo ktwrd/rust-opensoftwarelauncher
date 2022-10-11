@@ -1,4 +1,3 @@
-use serde_json::{Result};
 use crate::structs::details::Details;
 use crate::TokenResponse;
 use crate::Connected;
@@ -50,9 +49,10 @@ pub async fn osl_token_grant(d: Details) -> TokenResponse  {
 
 }
 
-pub async fn osl_release(d: Details, op: String) -> String {
+pub async fn osl_release(d: Details) -> String {
    
-       let (url, username, password) = (d.url, d.username, d.password);
+
+    let url = d.url;
 
     let payload = format!("{url}/release/latest/com.minalyze.minalogger");
 

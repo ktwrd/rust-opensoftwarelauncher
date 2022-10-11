@@ -1,12 +1,9 @@
-use serde_json::{Result};
 
 use std::{
-    io::{Read, Write},
+    io::{Read},
     fs::{File},
 };
 use crate::structs::details::Details;
-use crate::structs::connection::Connected;
-use crate::TokenResponse;
 
 pub fn details_deser() -> Details {
     

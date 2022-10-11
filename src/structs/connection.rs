@@ -1,45 +1,60 @@
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize};
 
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Connected {
-    pub Uptime: i32,
-    pub Version: String,
-    pub AuthProvider: String,
-    pub AuthProviderSignup: String
+    #[serde(rename = "Uptime")]
+    pub uptime: i32,
+    #[serde(rename = "Version")]
+    pub version: String,
+    #[serde(rename = "AuthProvider")]
+    pub authprovider: String,
+    #[serde(rename = "AuthProviderSignup")]
+    pub authprovidersignup: String
 }
 
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct TokenResponse {
-    pub Success: bool,
-    pub Data: _data,
+    #[serde(rename = "Success")]
+    pub success: bool,
+    #[serde(rename = "Data")]
+    pub data: TokenData,
      
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub DataType: Option<String>
+    #[serde(skip_serializing_if = "Option::is_none", rename = "DataType" )]
+    pub datatype: Option<String>
 }
 
 
 #[derive(Debug, Clone, Deserialize)]
-pub struct _data {
-    pub Success: bool,
-    pub Message: String,
-       
-    pub Groups: Vec<String>,
-    pub Permissions: Vec<i32>,
-    pub Token: _token
+pub struct TokenData {
+    #[serde(rename = "Success")]
+    pub success: bool,
+    #[serde(rename = "Message")]
+    pub message: String,
+    #[serde(rename = "Group")]   
+    pub groups: Vec<String>,
+    #[serde(rename = "Permissions")] 
+    pub permissions: Vec<i32>,
+    #[serde(rename = "Token")] 
+    pub token: DataToken
 }
 
 #[derive(Debug, Clone, Deserialize)]
-pub struct _token {
-    pub Allow: bool,
-    pub Token: String,
-    pub TokenHash: String,
+pub struct DataToken {
+    #[serde(rename = "Allow")] 
+    pub allow: bool,
+    #[serde(rename = "Token")]
+    pub token: String,
+    #[serde(rename = "TokenHash")]
+    pub tokenhash: String,
 
+    /* there is no current use for these
     #[serde(skip_serializing_if = "Option::is_none")]
     useragent: Option<String>,
     Host: String,
     CreatedTimestamp: u128,
     LastUsed: u128
+    */
 }
 
