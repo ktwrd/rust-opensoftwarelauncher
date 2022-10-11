@@ -9,21 +9,21 @@ use fs::*;
 
 pub mod structs {
     pub mod connection;
+    pub mod details;
 }
 // internal crates
 
 
 #[tokio::main]
 async fn main() {
-    
-    // temp
-    let url = String::from("http://buildservice.api.minalogger.com");
+
+    let d = details_deser();
+    let url = format!("https://{}", d.url);
 
     let connection = osl_connect_deser(osl_connect(url).await);
 
     println!("Connected to build server successfully\nUptime: {}\nVersion: {}", 
              connection.Uptime, connection.Version);
-
 
 
 
