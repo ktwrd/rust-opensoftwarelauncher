@@ -12,19 +12,24 @@ pub mod structs {
     pub mod details;
 }
 // internal crates
+use crate::structs::details::Details;
 
 
 #[tokio::main]
 async fn main() {
 
-    let d = details_deser();
+    let d: Details = details_deser();
 
-    let connection = osl_connect_deser(osl_connect(d.url).await);
+    println!("{:?}", d);
+    let connection = osl_connect_deser(osl_connect(d.url.clone()).await);
 
     println!("Connected to build server successfully\nUptime: {}\nVersion: {}", 
              connection.Uptime, connection.Version);
 
+    
 
+    let token1 = osl_token_grant(d).await;
 
+    println!("{:?}", token1);
 }
 
