@@ -18,9 +18,8 @@ pub mod structs {
 async fn main() {
 
     let d = details_deser();
-    let url = format!("https://{}", d.url);
 
-    let connection = osl_connect_deser(osl_connect(url).await);
+    let connection = osl_connect_deser(osl_connect(d.url).await);
 
     println!("Connected to build server successfully\nUptime: {}\nVersion: {}", 
              connection.Uptime, connection.Version);
