@@ -58,3 +58,60 @@ pub struct DataToken {
     */
 }
 
+
+
+/*
+#[derive(Debug, Clone, Deserialize)]
+pub struct BuildVec {
+    Vec<Build>
+}
+*/
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct Build {
+    pub UID: String,
+    pub ProductName: String,
+    pub ProductID: String,
+    pub Streams: Vec<BuildStream>
+}
+
+#[derive(Debug, Clone, Deserialize)]
+pub struct BuildStream {
+
+    pub UID: String,
+    pub ProductID: String,
+    pub ProductName: String,
+    pub ProductVersion: String,
+    pub ProductExpiryTimestamp: u32,
+    pub ProductExpiryAt: String,
+    pub BranchName: String,
+    pub UpdatedTimestamp: u64,
+    pub UpdatedAt: String,
+    pub RemoteSignature: String,
+    pub Executable: BuildExecutables,
+    pub CommitHash: String,
+    pub GroupWhitelist: Vec<String>,
+    pub GroupBlacklist: Vec<String>,
+
+}
+#[derive(Debug, Clone, Deserialize)]
+pub struct BuildExecutables {
+    pub UID: String,
+    pub Linux: String,
+    pub Windows: String
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

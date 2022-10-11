@@ -1,7 +1,7 @@
 use crate::structs::details::Details;
 use crate::TokenResponse;
 use crate::Connected;
-
+use crate::Build;
 
 pub async fn osl_connect(url: String) -> Connected {
 
@@ -49,7 +49,7 @@ pub async fn osl_token_grant(d: Details) -> TokenResponse  {
 
 }
 
-pub async fn osl_release(d: Details) -> String {
+pub async fn osl_release(d: Details) -> Vec<Build> {
    
 
     let url = d.url;
@@ -66,5 +66,9 @@ pub async fn osl_release(d: Details) -> String {
          Err(e) => panic!("{e}")
      };
 
-     return cli_res
+     let result: Vec<Build> = serde_json::from_str(&cli_res).expect("failed to deserialize Build Vec");
+
+     return result
+
+
 }

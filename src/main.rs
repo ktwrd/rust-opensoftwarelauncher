@@ -14,7 +14,7 @@ pub mod structs {
 // internal crates
 use crate::structs::{details::Details, connection::TokenResponse};
 use crate::structs::connection::Connected;
-
+use crate::structs::connection::Build;
 
 #[tokio::main]
 async fn main() {
@@ -35,7 +35,7 @@ async fn main() {
 
     if args.len() < 3 {
 
-        println!("Help\n\n--version (current, latest) | shows the version given");
+        println!("Help\n\n--version (current, latest, streams) | shows the version given");
         return
     };
 
@@ -46,29 +46,32 @@ async fn main() {
     match &a1 as &str {
 
         "--version" => { 
+        
+            let release = &osl_release(d.clone()).await;
+            
 
             match &a2 as &str {
-                
+
                 "current" => println!("{}", osl_connect(d.url.clone()).await.version),
-                            
-                "latest" => println!("{:?}", osl_release(d.clone()).await),
+
+                "releases" => {
+                    for x in 0..release.len() { 
+                        println!("{:?}", release[x].ProductName)
+                    };
+                },
+                "streams" => {
+                    for x in 0..release[0].Streams.len() {
+                    println!("Branch: {}\nVersion: {}",
+                             release[0].Streams[x].BranchName, release[0].Streams[x].ProductVersion
+                             );
+                    };
+
+                },
+
                              
-                _ => println!("Options\n--current, --latest")
+                _ => println!("Options\n--releases, --streams")
             };
         },
         _ => println!("invalid Command"),
     };
 }
-
-    /*
-
-    Uptime: 15886
-Version: 1.0.76.513
-http://buildservice.api.minalogger.com/token/grant?username=toastxc%40proton.me&password=mhSayrWym7pEiPafFtktX
-Details { url: "http://buildservice.api.minalogger.com", username: "toastxc%40proton.me", password: "mhSayrWym7pEiPafFtktX", token: "" }
-
-Connected { Uptime: 15886, Version: "1.0.76.513", AuthProvider: "https://minalogger.com", AuthProviderSignup: "https://minalogger.com/register" }
-
-TokenResponse { Success: true, Data: _data { Success: true, Message: "ServerResponse_Account_TokenGranted", Groups: [], Permissions: [], Token: _token { Allow: true, Token: "67P521Q267CYNQL2M1RR5IGHYKNB7TIE", TokenHash: "b2b290f5c795829ee95b691fd259df3ffee1dc9b00e5114c26ff3145bea29a62", useragent: None, Host: "125.253.35.22", CreatedTimestamp: 1665475999002, LastUsed: 1665475999029 } }, DataType: Some("OSLCommon.Authorization.GrantTokenResponse, OSLCommon, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null") }
-*/
-
