@@ -1,8 +1,10 @@
 use serde_json::{Result};
 use crate::structs::details::Details;
+use crate::TokenResponse;
+use crate::Connected;
 
 
-pub async fn osl_connect(url: String) -> String {
+pub async fn osl_connect(url: String) -> Connected {
 
 
      let client: std::result::Result<reqwest::Response, reqwest::Error> =
@@ -15,12 +17,16 @@ pub async fn osl_connect(url: String) -> String {
          Err(e) => panic!("{e}")
      };
 
-     return cli_res
+
+      
+     let result: Connected = serde_json::from_str(&cli_res).expect("failed to deserialize connection request");
+
+     return result
 
 }
 
 
-pub async fn osl_token_grant(d: Details) -> String  {
+pub async fn osl_token_grant(d: Details) -> TokenResponse  {
 
 
     let (url, username, password) = (d.url, d.username, d.password);
@@ -38,7 +44,9 @@ pub async fn osl_token_grant(d: Details) -> String  {
          Err(e) => panic!("{e}")
      };
 
-     return cli_res
+     let result: TokenResponse = serde_json::from_str(&cli_res).expect("failed to deserialize token response");
+
+     return result
 
 }
 

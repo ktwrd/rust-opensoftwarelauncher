@@ -12,8 +12,8 @@ pub mod structs {
     pub mod details;
 }
 // internal crates
-use crate::structs::details::Details;
-use crate::structs::connection::TokenResponse;
+use crate::structs::{details::Details, connection::TokenResponse};
+use crate::structs::connection::Connected;
 
 
 #[tokio::main]
@@ -21,12 +21,12 @@ async fn main() {
 
     let d: Details = details_deser();
 
-    let connection = osl_connect_deser(osl_connect(d.url.clone()).await);
+    let connection = osl_connect(d.url.clone()).await;
 
     match d.token.clone().len() {
         0 => {
-        let token = token_response_deser(osl_token_grant(d.clone()).await).Data.Token.Token;
-        println!("this program requires a token, please inser in details.json\n{token}");
+        let token = osl_token_grant(d.clone()).await.Data.Token.Token;
+        println!("this program requires a token, please inser in details.json\n{:?}", token);
         return
         },
         _ => d.clone().token
@@ -37,8 +37,7 @@ async fn main() {
 
     if args.len() < 3 {
 
-         let connect = osl_connect_deser(osl_connect(d.url.clone()).await);
-        println!("Connected Successfully\nUptime: {}\nVersion: {}\n", connect.Uptime, connect.Version);
+        println!("Help\n\n--version (current, latest) | shows the version given");
         return
 
     };
@@ -53,18 +52,19 @@ async fn main() {
 
             match &a2 as &str {
                 
-                "current" => println!("{}", osl_connect_deser(osl_connect(d.url.clone()).await).Version),
+                "current" => println!("{}", osl_connect(d.url.clone()).await.Version),
                             
                 "latest" => println!("{:?}", osl_release(d.clone(), String::from("latest")).await),
                              
                 _ => println!("Options\n--current, --latest")
             };
-
-
         },
 
         _ => println!("invalid Command"),
+    
     };
+
+
 
 
 }
