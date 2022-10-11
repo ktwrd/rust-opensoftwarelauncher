@@ -1,6 +1,6 @@
 use serde_json::{Result};
 
-pub async fn osl_example(url: String) -> String {
+pub async fn osl_connect(url: String) -> String {
 
 
      let client: std::result::Result<reqwest::Response, reqwest::Error> =

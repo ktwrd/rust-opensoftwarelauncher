@@ -16,18 +16,16 @@ pub mod structs {
 #[tokio::main]
 async fn main() {
     
-    println!("OpenSoftwareLauncher");
-
     // temp
     let url = String::from("http://buildservice.api.minalogger.com");
 
-    let connection_in = osl_example(url).await;
+    let connection = osl_connect_deser(osl_connect(url).await);
 
-    println!("Server found!");
+    println!("Connected to build server successfully\nUptime: {}\nVersion: {}", 
+             connection.Uptime, connection.Version);
 
-    let connection = osl_connect_deser(connection_in);
 
-    println!("Connected to build server successfully\nUptime: {}\nVersion: {}", connection.Uptime, connection.Version);
+
 
 }
 
