@@ -32,9 +32,9 @@ pub struct _data {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct _token {
-    Allow: bool,
-    Token: String,
-    TokenHash: String,
+    pub Allow: bool,
+    pub Token: String,
+    pub TokenHash: String,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     useragent: Option<String>,

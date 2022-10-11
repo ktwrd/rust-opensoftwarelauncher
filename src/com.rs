@@ -27,7 +27,6 @@ pub async fn osl_token_grant(d: Details) -> String  {
 
     let payload = format!("{url}/token/grant?username={username}&password={password}");
 
-    println!("{payload}");
 
     let client: std::result::Result<reqwest::Response, reqwest::Error> =
     reqwest::Client::new()

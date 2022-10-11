@@ -23,13 +23,46 @@ async fn main() {
 
     let connection = osl_connect_deser(osl_connect(d.url.clone()).await);
 
-    println!("Connected to build server successfully\nUptime: {}\nVersion: {}", 
-             connection.Uptime, connection.Version);
-
+    match d.token.clone().len() {
+        0 => {
+        let token = token_response_deser(osl_token_grant(d.clone()).await).Data.Token.Token;
+        println!("this program requires a token, please inser in details.json\n{token}");
+        return
+        },
+        _ => d.token
+    };
     
 
-    let token_response = token_response_deser(osl_token_grant(d).await);
-   
+    let mut args = std::env::args();
+
+    if args.len() < 2 {
+
+         let connect = osl_connect_deser(osl_connect(d.url.clone()).await);
+        println!("Connected Successfully\nUptime: {}\nVersion: {}\n", connect.Uptime, connect.Version);
+
+    }else {
+         
+        let a1 = args.nth(1).unwrap();
+        match &a1 as &str {
+
+            "--info" => println!("{:#?}", osl_connect_deser(osl_connect(d.url.clone()).await)),
+            _ => println!("use --help for help")
+        };
+    };
+
 
 }
+                   
+
+    /*
+
+    Uptime: 15886
+Version: 1.0.76.513
+http://buildservice.api.minalogger.com/token/grant?username=toastxc%40proton.me&password=mhSayrWym7pEiPafFtktX
+Details { url: "http://buildservice.api.minalogger.com", username: "toastxc%40proton.me", password: "mhSayrWym7pEiPafFtktX", token: "" }
+
+Connected { Uptime: 15886, Version: "1.0.76.513", AuthProvider: "https://minalogger.com", AuthProviderSignup: "https://minalogger.com/register" }
+
+TokenResponse { Success: true, Data: _data { Success: true, Message: "ServerResponse_Account_TokenGranted", Groups: [], Permissions: [], Token: _token { Allow: true, Token: "67P521Q267CYNQL2M1RR5IGHYKNB7TIE", TokenHash: "b2b290f5c795829ee95b691fd259df3ffee1dc9b00e5114c26ff3145bea29a62", useragent: None, Host: "125.253.35.22", CreatedTimestamp: 1665475999002, LastUsed: 1665475999029 } }, DataType: Some("OSLCommon.Authorization.GrantTokenResponse, OSLCommon, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null") }
+*/
 

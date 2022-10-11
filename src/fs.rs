@@ -1,8 +1,8 @@
 use serde_json::{Result};
 
 use std::{
-    io::Read,
-    fs::File,
+    io::{Read, Write},
+    fs::{File},
 };
 use crate::structs::details::Details;
 use crate::structs::connection::Connected;
@@ -40,3 +40,33 @@ pub fn token_response_deser(input: String) -> TokenResponse {
 
     return result
 }
+
+/*
+pub fn write_token(input: String) {
+
+
+    // open file
+    let mut file = File::open("details.json");
+    
+    let mut original_str = String::new();
+
+    file.as_ref().unwrap().read_to_string(&mut original_str);
+
+    let o: Details = serde_json::from_str(&original_str).unwrap();
+
+    let new = Details {
+        url: o.url,
+        username: o.username,
+        password: o.password,
+        token: input
+    };
+
+    println!("{:?}", new);
+    
+    let returner = serde_json::to_string(&new);
+    file.unwrap().write(returner.unwrap());
+
+
+
+}
+*/
