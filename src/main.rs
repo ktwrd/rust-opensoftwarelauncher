@@ -29,25 +29,41 @@ async fn main() {
         println!("this program requires a token, please inser in details.json\n{token}");
         return
         },
-        _ => d.token
+        _ => d.clone().token
     };
     
 
     let mut args = std::env::args();
 
-    if args.len() < 2 {
+    if args.len() < 3 {
 
          let connect = osl_connect_deser(osl_connect(d.url.clone()).await);
         println!("Connected Successfully\nUptime: {}\nVersion: {}\n", connect.Uptime, connect.Version);
+        return
 
-    }else {
-         
-        let a1 = args.nth(1).unwrap();
-        match &a1 as &str {
+    };
 
-            "--info" => println!("{:#?}", osl_connect_deser(osl_connect(d.url.clone()).await)),
-            _ => println!("use --help for help")
-        };
+
+    let a1 = args.nth(1).unwrap();
+    let a2 = args.nth(0).unwrap();
+
+    match &a1 as &str {
+
+        "--version" => { 
+
+            match &a2 as &str {
+                
+                "current" => println!("{}", osl_connect_deser(osl_connect(d.url.clone()).await).Version),
+                            
+                "latest" => println!("{:?}", osl_release(d.clone(), String::from("latest")).await),
+                             
+                _ => println!("Options\n--current, --latest")
+            };
+
+
+        },
+
+        _ => println!("invalid Command"),
     };
 
 

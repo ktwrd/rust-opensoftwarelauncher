@@ -42,3 +42,21 @@ pub async fn osl_token_grant(d: Details) -> String  {
 
 }
 
+pub async fn osl_release(d: Details, op: String) -> String {
+   
+       let (url, username, password) = (d.url, d.username, d.password);
+
+    let payload = format!("{url}/release/latest/com.minalyze.minalogger");
+
+     let client: std::result::Result<reqwest::Response, reqwest::Error> =
+    reqwest::Client::new()
+     .get(&payload)
+     .send().await;
+
+     let cli_res = match client {
+         Ok(_) => client.unwrap().text().await.unwrap(),
+         Err(e) => panic!("{e}")
+     };
+
+     return cli_res
+}
