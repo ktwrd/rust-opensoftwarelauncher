@@ -6,11 +6,12 @@ use std::{
 };
 use crate::structs::details::Details;
 use crate::structs::connection::Connected;
+use crate::TokenResponse;
 
 
 pub fn osl_connect_deser(input: String) -> Connected {
 
-    let result: Connected = serde_json::from_str(&input).expect("failed to deserialize response");
+    let result: Connected = serde_json::from_str(&input).expect("failed to deserialize connection request");
 
     return result
 
@@ -30,4 +31,12 @@ pub fn details_deser() -> Details {
     let details: Details = serde_json::from_str(&details_str).expect("Failed to deser details.json");
 
     return details
+}
+
+pub fn token_response_deser(input: String) -> TokenResponse {
+
+    let result: TokenResponse = serde_json::from_str(&input).expect("failed to deserialize token response");
+
+
+    return result
 }
