@@ -69,36 +69,57 @@ pub struct BuildVec {
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct Build {
-    pub UID: String,
-    pub ProductName: String,
-    pub ProductID: String,
-    pub Streams: Vec<BuildStream>
+    #[serde(rename = "UID")]
+    pub uid: String,
+    #[serde(rename = "ProductName")]
+    pub productname: String,
+    #[serde(rename = "ProductID")]
+    pub productid: String,
+    #[serde(rename = "Streams")]
+    pub streams: Vec<BuildStream>
 }
 
 #[derive(Debug, Clone, Deserialize)]
 pub struct BuildStream {
 
-    pub UID: String,
-    pub ProductID: String,
-    pub ProductName: String,
-    pub ProductVersion: String,
-    pub ProductExpiryTimestamp: u32,
-    pub ProductExpiryAt: String,
-    pub BranchName: String,
-    pub UpdatedTimestamp: u64,
-    pub UpdatedAt: String,
-    pub RemoteSignature: String,
-    pub Executable: BuildExecutables,
-    pub CommitHash: String,
-    pub GroupWhitelist: Vec<String>,
-    pub GroupBlacklist: Vec<String>,
+    #[serde(rename = "UID")]
+    pub uid: String,
+    #[serde(rename = "ProductID")]
+    pub productid: String,
+    #[serde(rename = "ProductName")]
+    pub productname: String,
+    #[serde(rename = "ProductVersion")]
+    pub productversion: String,
+    #[serde(rename = "ProductExpiryTimestamp")]
+    pub productexpirytimestamp: u32,
+    #[serde(rename = "ProductExpiryAt")]
+    pub productexpiryat: String,
+     #[serde(rename = "BranchName")]
+    pub branchname: String,
+    #[serde(rename = "UpdatedTimestamp")]
+    pub updatedtimestamp: u64,
+    #[serde(rename = "UpdatedAt")]
+    pub updatedat: String,
+    #[serde(rename = "RemoteSignature")]
+    pub remotesignature: String,
+    #[serde(rename = "Executable")]
+    pub executable: BuildExecutables,
+    #[serde(rename = "CommitHash")]
+    pub commithash: String,
+    #[serde(rename = "GroupWhitelist")]
+    pub groupwhitelist: Vec<String>,
+    #[serde(rename = "GroupBlacklist")]
+    pub groupblacklist: Vec<String>,
 
 }
 #[derive(Debug, Clone, Deserialize)]
 pub struct BuildExecutables {
-    pub UID: String,
-    pub Linux: String,
-    pub Windows: String
+    #[serde(rename = "UID")]
+    pub uid: String,
+    #[serde(rename = "Linux")]
+    pub linux: String,
+    #[serde(rename = "Windows")]
+    pub windows: String
 }
 
 

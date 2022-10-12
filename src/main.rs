@@ -35,7 +35,7 @@ async fn main() {
 
     if args.len() < 3 {
 
-        println!("Help\n\n--version (current, latest, streams) | shows the version given");
+        println!("Minimum of two paramaters for CLI");
         return
     };
 
@@ -56,20 +56,20 @@ async fn main() {
 
                 "releases" => {
                     for x in 0..release.len() { 
-                        println!("{:?}", release[x].ProductName)
+                        println!("{:?}", release[x].productname)
                     };
                 },
                 "streams" => {
-                    for x in 0..release[0].Streams.len() {
+                    for x in 0..release[0].streams.len() {
                     println!("Branch: {}\nVersion: {}",
-                             release[0].Streams[x].BranchName, release[0].Streams[x].ProductVersion
+                             release[0].streams[x].branchname, release[0].streams[x].productversion
                              );
                     };
 
                 },
 
                              
-                _ => println!("Options\n--releases, --streams")
+                _ => println!("Invalid Command\n--version (current, latest, streams)")
             };
         },
         _ => println!("invalid Command"),
