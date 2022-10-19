@@ -32,7 +32,7 @@ pub struct TokenData {
     pub success: bool,
     #[serde(rename = "Message")]
     pub message: String,
-    #[serde(rename = "Group")]   
+    #[serde(rename = "Groups")]   
     pub groups: Vec<String>,
     #[serde(rename = "Permissions")] 
     pub permissions: Vec<i32>,
