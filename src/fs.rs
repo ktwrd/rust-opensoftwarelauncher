@@ -26,6 +26,7 @@ pub fn details_deser() -> Details {
     return details
 }
 
+
 pub fn write_rel(rel: Vec<Build>) {
     
     let mut file = File::open("release.json")
@@ -39,4 +40,22 @@ pub fn write_rel(rel: Vec<Build>) {
     };
 
     fs::write("release.json", out).expect("Unable to write file");
+}
+
+pub fn read_rel() -> Vec<Build> {
+
+    let mut file = File::open("release.json")
+         .expect("File \"release.json\" not found");
+
+    let mut out = String::new();
+
+    file.read_to_string(&mut out);
+
+
+    let build: Vec<Build> = serde_json::from_str(&out)
+        .expect("Failed to deser release.json");
+
+    return build
+
+
 }

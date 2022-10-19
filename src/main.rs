@@ -66,6 +66,7 @@ pub async fn cli_engine(mut args: Args, d: Details) {
 
         "--get" => cli_get(d).await,
         "--connect" => {let res = osl_connect(d.url).await; println!("Connected\nVersion: {}", res.version)},
+        "--version" => cli_version(d, args3[2].to_string()).await,
         _ => {println!("Invalid Command\n--get, --connect"); return},
     };
 
@@ -80,6 +81,13 @@ pub async fn cli_get(d: Details) {
 
 
 }
+pub async fn cli_version(d: Details, arg: String) {
+
+    let builds = read_rel();
+ 
+    println!("Product: {}", builds[0].productname)
+}
+
 /*
     if args.len() < 3 {
 
