@@ -3,10 +3,8 @@ use std::fs;
 use std::fs::File;
 
 use std::{
-    io::{Read, Write},
+    io::{Read},
 };
-
-use std::io::BufReader;
 
 use crate::structs::details::Details;
 use crate::Build;
@@ -39,6 +37,8 @@ pub fn write_rel(rel: Vec<Build>) {
         out = format!("{out}\n{current}");
     };
 
+    out = format!("[{out}]");
+
     fs::write("release.json", out).expect("Unable to write file");
 }
 
@@ -51,11 +51,15 @@ pub fn read_rel() -> Vec<Build> {
 
     file.read_to_string(&mut out);
 
+    if out == "" {
+        panic!("No data found in release.json (try running --get)");
+    
+    }else {
 
-    let build: Vec<Build> = serde_json::from_str(&out)
-        .expect("Failed to deser release.json");
+        let build: Vec<Build> = serde_json::from_str(&out)
+            .expect("Failed to deser release.json");
 
-    return build
-
+        return build
+    }
 
 }

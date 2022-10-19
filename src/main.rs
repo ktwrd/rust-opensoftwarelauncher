@@ -33,7 +33,7 @@ async fn main() {
     };
     
 
-    let mut args = std::env::args();
+    let args = std::env::args();
 
     cli_engine(args, d).await
 }
@@ -44,21 +44,17 @@ pub async fn cli_engine(mut args: Args, d: Details) {
     // the String "" is substituted for None (rust null) to avoid errors while matching 
 
     let null = "".to_string();
-   
-  
-    let mut args2 = vec![];
-    for x in 0..args.len() {
-        args2.push(args.nth(0))
-    };
 
     let mut args3 = vec![];
 
-    for x in 0..args2.len()  {
-        args3.push(args2[x].as_ref().unwrap_or(&null));
-    };
+    for _ in 0..args.len() {
+        let temp = args.nth(0);
+        args3.push(temp.unwrap_or(null.to_string()));
+    }
 
-    for x in 0..10 {
-        args3.push(&null);
+
+    for _ in 0..10 {
+        args3.push(null.clone());
     };
 
 
@@ -66,7 +62,7 @@ pub async fn cli_engine(mut args: Args, d: Details) {
 
         "--get" => cli_get(d).await,
         "--connect" => {let res = osl_connect(d.url).await; println!("Connected\nVersion: {}", res.version)},
-        "--version" => cli_version(d, args3[2].to_string()).await,
+        "--version" => cli_version(args3[2].to_string()).await,
         _ => {println!("Invalid Command\n--get, --connect"); return},
     };
 
@@ -81,11 +77,17 @@ pub async fn cli_get(d: Details) {
 
 
 }
-pub async fn cli_version(d: Details, arg: String) {
+pub async fn cli_version(arg: String) {
 
     let builds = read_rel();
+
+    println!("There are {} products, named:", builds.len());
+    for x in 0..builds.len() {
+        println!("{}", builds[x].productname)
+    };
+
  
-    println!("Product: {}", builds[0].productname)
+//    println!("Product: {}", builds[0].productname)
 }
 
 /*
