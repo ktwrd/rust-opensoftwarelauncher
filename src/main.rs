@@ -11,6 +11,8 @@ pub mod structs {
     pub mod connection;
     pub mod details;
 }
+
+use std::env::Args;
 // internal crates
 use crate::structs::{details::Details, connection::TokenResponse};
 use crate::structs::connection::Connected;
@@ -33,40 +35,106 @@ async fn main() {
 
     let mut args = std::env::args();
 
+    cli_engine(args, d).await
+}
+
+
+pub async fn cli_engine(mut args: Args, d: Details) {
+
+    // the String "" is substituted for None (rust null) to avoid errors while matching 
+
+    let null = "".to_string();
+   
+  
+    let mut args2 = vec![];
+    for x in 0..args.len() {
+        args2.push(args.nth(0))
+    };
+
+    let mut args3 = vec![];
+
+    for x in 0..args2.len()  {
+        args3.push(args2[x].as_ref().unwrap_or(&null));
+    };
+
+    for x in 0..10 {
+        args3.push(&null);
+    };
+
+
+    match &args3[1] as &str {
+
+        "--get" => cli_get(d).await,
+        "--connect" => {let res = osl_connect(d.url).await; println!("Connected\nVersion: {}", res.version)},
+        _ => {println!("Invalid Command\n--get, --connect"); return},
+    };
+
+}
+pub async fn cli_get(d: Details) {
+
+    println!("Establishing connection...");
+    let release = osl_release(d).await; 
+    println!("Connected!");
+    write_rel(release);
+    println!("Latest build info saved");
+
+
+}
+/*
     if args.len() < 3 {
 
         println!("Minimum of two paramaters for CLI");
         return
     };
 
+   
 
-    let a1 = args.nth(1).unwrap();
-    let a2 = args.nth(0).unwrap();
+    //let a1 = args.nth(1).unwrap();
+    //let a2 = args.nth(0).unwrap();
 
-    match &a1 as &str {
+    let mut args2 = vec![None, None, None, None, None];
+    for x in 0..args.len() {
+        args2[x] = args.nth(0);
+    };
 
-        "--version" => { 
-        
-            let release = &osl_release(d.clone()).await;
+    println!("{:?}", args2);
+
+    
+    match &args2[0]?  {
+
+    
+     "a"   => {},
+
+       // "--version" => { 
+       // 
+       //     let release = &osl_release(d.clone()).await;
+     //   },
+    };
+}
             
 
-            match &a2 as &str {
+            match &args2[1] {
 
+  
                 "current" => println!("{}", osl_connect(d.url.clone()).await.version),
+            };
+        },
+    };
+}
 
                 "releases" => {
                     for x in 0..release.len() { 
                         println!("{:?}", release[x].productname)
                     };
                 },
-                "streams" => {
+                Some("streams") => {
                     for x in 0..release[0].streams.len() {
                     println!("Branch: {}\nVersion: {}",
                              release[0].streams[x].branchname, release[0].streams[x].productversion
                              );
                     };
 
-                },
+              },
 
                              
                 _ => println!("Invalid Command\n--version (current, latest, streams)")
@@ -75,3 +143,4 @@ async fn main() {
         _ => println!("invalid Command"),
     };
 }
+*/

@@ -1,4 +1,4 @@
-use serde::{Deserialize};
+use serde::{Deserialize, Serialize};
 
 
 #[derive(Debug, Clone, Deserialize)]
@@ -67,7 +67,7 @@ pub struct BuildVec {
 }
 */
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct Build {
     #[serde(rename = "UID")]
     pub uid: String,
@@ -79,7 +79,7 @@ pub struct Build {
     pub streams: Vec<BuildStream>
 }
 
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct BuildStream {
 
     #[serde(rename = "UID")]
@@ -112,7 +112,7 @@ pub struct BuildStream {
     pub groupblacklist: Vec<String>,
 
 }
-#[derive(Debug, Clone, Deserialize)]
+#[derive(Debug, Clone, Deserialize, Serialize)]
 pub struct BuildExecutables {
     #[serde(rename = "UID")]
     pub uid: String,
