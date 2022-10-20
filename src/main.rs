@@ -47,9 +47,10 @@ pub async fn cli_engine(mut args: Args, d: Details) {
 
     let mut args3 = vec![];
 
-    for _ in 0..args.len() {
+    for x in 0..args.len() {
         let temp = args.nth(0);
-        args3.push(temp.unwrap_or(null.to_string()));
+        args3.push(temp.clone().unwrap_or(null.to_string()));
+
     }
 
 
@@ -87,70 +88,4 @@ pub async fn cli_version(arg: String) {
     };
 
  
-//    println!("Product: {}", builds[0].productname)
 }
-
-/*
-    if args.len() < 3 {
-
-        println!("Minimum of two paramaters for CLI");
-        return
-    };
-
-   
-
-    //let a1 = args.nth(1).unwrap();
-    //let a2 = args.nth(0).unwrap();
-
-    let mut args2 = vec![None, None, None, None, None];
-    for x in 0..args.len() {
-        args2[x] = args.nth(0);
-    };
-
-    println!("{:?}", args2);
-
-    
-    match &args2[0]?  {
-
-    
-     "a"   => {},
-
-       // "--version" => { 
-       // 
-       //     let release = &osl_release(d.clone()).await;
-     //   },
-    };
-}
-            
-
-            match &args2[1] {
-
-  
-                "current" => println!("{}", osl_connect(d.url.clone()).await.version),
-            };
-        },
-    };
-}
-
-                "releases" => {
-                    for x in 0..release.len() { 
-                        println!("{:?}", release[x].productname)
-                    };
-                },
-                Some("streams") => {
-                    for x in 0..release[0].streams.len() {
-                    println!("Branch: {}\nVersion: {}",
-                             release[0].streams[x].branchname, release[0].streams[x].productversion
-                             );
-                    };
-
-              },
-
-                             
-                _ => println!("Invalid Command\n--version (current, latest, streams)")
-            };
-        },
-        _ => println!("invalid Command"),
-    };
-}
-*/
