@@ -51,7 +51,6 @@ pub fn read_rel() -> Vec<Build> {
 
     file.read_to_string(&mut out);
 
-    println!("it is: {:#?}", out);
     if out == "\n" {
         panic!("No data found in release.json (try running --get)");
     

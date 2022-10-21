@@ -16,7 +16,7 @@ use std::env::Args;
 // internal crates
 use crate::structs::{details::Details, connection::TokenResponse};
 use crate::structs::connection::Connected;
-use crate::structs::connection::Build;
+use crate::structs::connection::{Build, BuildStream};
 
 #[tokio::main]
 async fn main() {
@@ -61,13 +61,53 @@ pub async fn cli_engine(mut args: Args, d: Details) {
 
     match &args3[1] as &str {
 
-        "--get" => cli_get(d).await,
+        "--get"     => cli_get(d).await,
         "--connect" => {let res = osl_connect(d.url).await; println!("Connected\nVersion: {}", res.version)},
         "--version" => cli_version(args3[2].to_string()).await,
+        "--info"    => cli_info(args3).await,
         _ => {println!("Invalid Command\n--get, --connect"); return},
     };
 
 }
+pub async fn cli_info(arg3: Vec<String>) {
+
+    let p = read_rel();
+
+    for x in 0..p.len() {
+        if p[x].productname == arg3[2] {
+
+            let stream = streams(arg3.clone(), p[x].streams.clone()).await;
+            
+            let res = match &arg3[3] as &str {
+
+                "ProductID" | "productid" => &p[x].productid,
+                "streams"   | "Streams"   => &stream,
+                _                         => &p[x].productname,
+            };
+
+            println!("{res}");
+        
+        };
+    };
+
+
+}
+
+pub async fn streams(arg3: Vec<String>, s: Vec<BuildStream>) -> String {
+
+    let mut res = String::new();
+
+    for x in 0..s.len() {
+
+        let newstring = format!("ProductName {}\nProductVersion: {}\nBranchName: {}", s[x].productname, s[x].productversion, s[x].branchname);
+
+        res += &format!("{}\n\n", newstring);
+    };
+    return res
+
+}
+
+
 pub async fn cli_get(d: Details) {
 
     println!("Establishing connection...");
