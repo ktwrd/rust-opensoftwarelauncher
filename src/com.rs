@@ -2,6 +2,31 @@ use crate::structs::details::Details;
 use crate::TokenResponse;
 use crate::Connected;
 use crate::Build;
+use crate::ProductFileResponse;
+
+pub async fn osl_file(url: String, hash: String, token: String) -> Vec<ProductFileResponse> {
+
+    let link = format!("{url}/file?hash={hash}&token={token}");
+
+      let client: std::result::Result<reqwest::Response, reqwest::Error> =
+    reqwest::Client::new()
+     .get(&link)
+     .send().await;
+
+     let cli_res = match client {
+         Ok(_) => client.unwrap().text().await.unwrap(),
+         Err(e) => panic!("{e}")
+     };
+
+  
+
+     let result: Vec<ProductFileResponse> = 
+         serde_json::from_str(&cli_res).expect("failed to deserialize ProductFileResponse");
+     
+     return result
+
+
+}
 
 pub async fn osl_connect(url: String) -> Connected {
 

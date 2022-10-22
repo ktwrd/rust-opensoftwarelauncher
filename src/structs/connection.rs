@@ -125,14 +125,21 @@ pub struct BuildExecutables {
 
 
 
+#[derive(Debug, Clone, Deserialize, Serialize)]
+pub struct ProductFileResponse {
 
 
+    #[serde(rename = "UID")]
+    pub uid: String,
+    #[serde(rename = "Location")]
+    pub location: String,
+    #[serde(rename = "CommitHash")]
+    pub commithash: String,
+    #[serde(rename = "Platform")]
+    pub platform: i32,
+    #[serde(rename = "Type")]
+    pub filetype: i32
+}
 
 
-
-
-
-
-
-
-
+    // UID Location CommitHash Platform Type
