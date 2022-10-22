@@ -66,8 +66,45 @@ pub async fn cli_engine(mut args: Args, d: Details) {
         "--connect" => {let res = osl_connect(d.url).await; println!("Connected\nVersion: {}", res.version)},
         "--version" => cli_version(args3[2].to_string()).await,
         "--info"    => cli_info(args3, d.clone()).await,
+        "--install" => cli_install(args3, d.clone()).await,
         _ => {println!("Invalid Command\n--get, --connect"); return},
     };
+
+}
+
+pub async fn cli_install(arg3: Vec<String>, d: Details) {
+
+    // --install productname linux
+    let builds = read_rel();
+
+    let mut software = String::new();
+
+    for x in 0..builds.len() {
+
+        if builds[x].productname == arg3[2] {
+            software = arg3[2].clone();
+        };
+    };
+
+    if software == "" {
+        println!("No matches found (try running --version to see avaiable software)");
+        return
+    };
+
+
+    match &arg3[3] as &str {
+        "Windows" | "windows" => {println!("Not yet an option"); return},
+        "Linux"   | "linux"   => println!("Installing..."),
+        _                     => {println!("Invalid Target (try: Linux or Windows)"); return },
+        };
+
+    println!("{}  {}", arg3[3].clone(), arg3[4].clone());
+
+
+    osl_install(arg3[3].clone(), arg3[4].clone()).await;
+
+
+
 
 }
 
@@ -87,7 +124,7 @@ pub async fn cli_info(arg3: Vec<String>, d: Details) {
 
                 "--ProductID" | "--productid" => &p[x].productid,
                 "--streams"   | "--Streams"   => &stream,
-                _                         => &p[x].productname,
+                _                         => "Options: (--streams, --productid)",
             };
 
             println!("{res}");

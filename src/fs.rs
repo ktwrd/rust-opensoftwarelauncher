@@ -3,11 +3,17 @@ use std::fs;
 use std::fs::File;
 
 use std::{
-    io::{Read},
+    io::{Read, copy},
 };
+
+use std::io;
+
+use reqwest::Response;
 
 use crate::structs::details::Details;
 use crate::Build;
+
+
 
 pub fn details_deser() -> Details {
     

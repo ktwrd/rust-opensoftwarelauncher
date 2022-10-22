@@ -3,6 +3,27 @@ use crate::TokenResponse;
 use crate::Connected;
 use crate::Build;
 use crate::ProductFileResponse;
+use std::fs::File;
+use std::io;
+use std::process::Command;
+
+
+pub async fn osl_install(target: String, Stream: String) {
+
+
+
+    let link = 
+        format!("https://d1k1slu6p5atxv.cloudfront.net/minalyze/minalogger2.0-dev/1666340184000/minalogger-2.1.11-linux-amd64.tar.gz");
+
+    let client = Command::new("wget")
+        .args(["-q", &link])
+        .output();
+
+    println!("Finished");
+
+
+
+}
 
 pub async fn osl_file(url: String, hash: String, token: String) -> Vec<ProductFileResponse> {
 
@@ -22,6 +43,7 @@ pub async fn osl_file(url: String, hash: String, token: String) -> Vec<ProductFi
 
      let result: Vec<ProductFileResponse> = 
          serde_json::from_str(&cli_res).expect("failed to deserialize ProductFileResponse");
+
      
      return result
 
