@@ -12,8 +12,19 @@ use reqwest::Response;
 
 use crate::structs::details::Details;
 use crate::Build;
+use std::process::Command;
 
 
+pub async fn osl_install(payload: String) {
+
+    let client = Command::new("wget")
+        .args(["-q", &payload])
+        .output();
+    println!("Finished");
+
+
+
+}
 
 pub fn details_deser() -> Details {
     

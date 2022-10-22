@@ -74,37 +74,17 @@ pub async fn cli_engine(mut args: Args, d: Details) {
 
 pub async fn cli_install(arg3: Vec<String>, d: Details) {
 
-    // --install productname linux
     let builds = read_rel();
 
-    let mut software = String::new();
 
-    for x in 0..builds.len() {
 
-        if builds[x].productname == arg3[2] {
-            software = arg3[2].clone();
-        };
-    };
-
-    if software == "" {
+    if arg3[2] == "" {
         println!("No matches found (try running --version to see avaiable software)");
         return
     };
 
-
-    match &arg3[3] as &str {
-        "Windows" | "windows" => {println!("Not yet an option"); return},
-        "Linux"   | "linux"   => println!("Installing..."),
-        _                     => {println!("Invalid Target (try: Linux or Windows)"); return },
-        };
-
-    println!("{}  {}", arg3[3].clone(), arg3[4].clone());
-
-
-    osl_install(arg3[3].clone(), arg3[4].clone()).await;
-
-
-
+   
+    osl_install(arg3[2].clone()).await;
 
 }
 
@@ -153,20 +133,16 @@ pub async fn streams(arg3: Vec<String>, s: Vec<BuildStream>, d: Details) -> Stri
         
     }else {
 
-        // ./target/debug/rust-opensoftwarelauncher --info "Minalogger 2.0" Streams nightly 
-
         let stre = arg3[4].clone();
 
         let res = match &arg3[4].clone() as &str {
-            "nightly" => &s[0].commithash,
-            "beta"    => &s[0].commithash,
-            "stable"  => &s[0].commithash,
+            "nightly" | "Nightly" => &s[0].commithash,
+            "beta"    | "Beta"    => &s[0].commithash,
+            "stable"  | "Stable"  => &s[0].commithash,
             _ => panic!("Stream not found"),
         };
 
        let streamf = osl_file(d.url, res.to_string(), d.token).await;
-
-//       println!("\n\n\n\n{:?}\n\n\n", streamf);
 
        println!("There are {} files associated with Stream {}", streamf.len(), stre);
 
