@@ -64,10 +64,10 @@ pub async fn cli_engine(mut args: Args, d: Details) {
 
         "--get"     => cli_get(d).await,
         "--connect" => {let res = osl_connect(d.url).await; println!("Connected\nVersion: {}", res.version)},
-        "--version" => cli_version(args3[2].to_string()).await,
+        "--products" => cli_version(args3[2].to_string()).await,
         "--info"    => cli_info(args3, d.clone()).await,
         "--install" => cli_install(args3, d.clone()).await,
-        _ => {println!("Invalid Command\n--get, --connect"); return},
+        _ => {println!("Options\n--get\n--connect\n--products\n--info\n--install"); return},
     };
 
 }
