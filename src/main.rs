@@ -66,13 +66,36 @@ pub async fn cli_engine(mut args: Args, d: Details) {
         "--connect" => {let res = osl_connect(d.url).await; println!("Connected\nVersion: {}", res.version)},
         "--products" => cli_version(args3[2].to_string()).await,
         "--info"    => cli_info(args3, d.clone()).await,
-        "--install" => cli_install(args3, d.clone()).await,
+        "--install" => cli_install(args3).await,
+        "--key"     => cli_key(args3, d.clone()).await,
         _ => {println!("Options\n--get\n--connect\n--products\n--info\n--install"); return},
     };
 
 }
+pub async fn cli_key(arg3: Vec<String>, d: Details) {
 
-pub async fn cli_install(arg3: Vec<String>, d: Details) {
+    // licence/redeem?token=<token>&key=<licence key>
+
+
+
+    match &arg3[2] as &str {
+        "" => {println!("insert license key"); return},
+        _ => {
+            if arg3[2].chars().count() != 29 {
+                println!("invalid key");
+                return
+            };
+        },
+    };
+
+    println!("OSLGET\ntoken: {}\nlicense key: {}", d.token, arg3[2]);
+
+
+
+
+}
+
+pub async fn cli_install(arg3: Vec<String>) {
 
     let builds = read_rel();
 
