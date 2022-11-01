@@ -76,7 +76,7 @@ pub struct Build {
     #[serde(rename = "ProductID")]
     pub productid: String,
     #[serde(rename = "Streams")]
-    pub streams: Vec<BuildStream>
+    pub streams: Vec<BuildStream>,
 }
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
@@ -106,13 +106,16 @@ pub struct BuildStream {
     pub executable: BuildExecutables,
     #[serde(rename = "CommitHash")]
     pub commithash: String,
-    #[serde(rename = "GroupWhitelist")]
-    pub groupwhitelist: Vec<String>,
-    #[serde(rename = "GroupBlacklist")]
-    pub groupblacklist: Vec<String>,
+
+
+    // legacy support
+    #[serde(skip_serializing_if = "Option::is_none", rename = "GroupWhitelist")]
+    pub groupwhitelist: Option<Vec<String>>,
+    #[serde(skip_serializing_if = "Option::is_none", rename = "GroupBlacklist")]
+    pub groupblacklist: Option<Vec<String>>,
 
 }
-#[derive(Debug, Clone, Deserialize, Serialize)]
+#[derive(Debug, Clone, Deserialize, Serialize, Default)]
 pub struct BuildExecutables {
     #[serde(rename = "UID")]
     pub uid: String,
