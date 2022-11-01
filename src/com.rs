@@ -7,7 +7,25 @@ use std::fs::File;
 use std::io;
 use std::process::Command;
 
+pub async fn osl_redeem(key: String, d: Details) {
 
+      let link = format!("{}/token/redeem?token={}&key={key}", d.url, d.token);
+
+      let client: std::result::Result<reqwest::Response, reqwest::Error> =
+    reqwest::Client::new()
+     .get(&link)
+     .send().await;
+
+     let cli_res = match client {
+         Ok(_) => client.unwrap().text().await.unwrap(),
+         Err(e) => panic!("{e}")
+     };
+
+     println!("Sucess! {:?}", cli_res);
+
+
+
+}
 pub async fn osl_file(url: String, hash: String, token: String) -> Vec<ProductFileResponse> {
 
     let link = format!("{url}/file?hash={hash}&token={token}");

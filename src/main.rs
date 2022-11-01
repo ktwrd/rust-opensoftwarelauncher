@@ -67,7 +67,7 @@ pub async fn cli_engine(mut args: Args, d: Details) {
         "--products" => cli_version(args3[2].to_string()).await,
         "--info"    => cli_info(args3, d.clone()).await,
         "--install" => cli_install(args3).await,
-        "--key"     => cli_key(args3, d.clone()).await,
+        "--redeem"     => cli_key(args3, d.clone()).await,
         _ => {println!("Options\n--get\n--connect\n--products\n--info\n--install"); return},
     };
 
@@ -87,8 +87,11 @@ pub async fn cli_key(arg3: Vec<String>, d: Details) {
             };
         },
     };
+    
+//    println!("OSLGET\ntoken: {}\nlicense key: {}", d.token, arg3[2]);
 
-    println!("OSLGET\ntoken: {}\nlicense key: {}", d.token, arg3[2]);
+    println!("redeeming...");
+    osl_redeem(arg3[2].clone(), d).await;
 
 
 
