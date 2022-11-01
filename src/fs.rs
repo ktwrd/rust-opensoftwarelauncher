@@ -1,14 +1,9 @@
-
 use std::fs;
 use std::fs::File;
 
 use std::{
-    io::{Read, copy},
+    io::{Read},
 };
-
-use std::io;
-
-use reqwest::Response;
 
 use crate::structs::details::Details;
 use crate::Build;
@@ -17,7 +12,7 @@ use std::process::Command;
 
 pub async fn osl_install(payload: String) {
 
-    let client = Command::new("wget")
+    let _ = Command::new("wget")
         .args(["-q", &payload])
         .output();
     println!("Finished");
@@ -44,11 +39,7 @@ pub fn details_deser() -> Details {
 
 pub fn write_rel(rel: Vec<Build>) {
     
-    let mut file = File::open("release.json")
-        .expect("File \"release.json\" not found");
-
     let mut out = String::new();
-
     for x in 0..rel.len() {
         let current: String = serde_json::to_string(&rel[x]).unwrap();
         out = format!("{out}\n{current}");

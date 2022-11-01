@@ -3,9 +3,6 @@ use crate::TokenResponse;
 use crate::Connected;
 use crate::Build;
 use crate::ProductFileResponse;
-use std::fs::File;
-use std::io;
-use std::process::Command;
 
 pub async fn osl_redeem(key: String, d: Details) {
 
@@ -17,7 +14,7 @@ pub async fn osl_redeem(key: String, d: Details) {
         .send().await;
 
     let cli_res = match client {
-        Ok(ref e) => client.unwrap(),
+        Ok(_) => client.unwrap(),
         Err(e) => {println!("{e}"); return}
     };
 
@@ -39,7 +36,7 @@ pub async fn osl_file(url: String, hash: String, token: String) -> Vec<ProductFi
         .send().await;
 
      let cli_res = match client {
-         Ok(ref e) => client.unwrap(),
+         Ok(_) => client.unwrap(),
          Err(e) => panic!("{e}")
      };
 
@@ -65,7 +62,7 @@ pub async fn osl_connect(url: String) -> Connected {
         .send().await;
 
     let cli_res = match client {
-        Ok(ref e) => client.unwrap(),
+        Ok(_) => client.unwrap(),
         Err(e) => panic!("{e}")
      };
 
@@ -112,15 +109,13 @@ pub async fn osl_release(d: Details) -> Vec<Build> {
     
     let link = format!("{}/release/latest/com.minalyze.minalogger?token={}", d.url, d.token);
 
-    println!("{:?}", link);
-     
     let client: std::result::Result<reqwest::Response, reqwest::Error> =
         reqwest::Client::new()
         .get(&link)
         .send().await;
 
     let cli_res = match client {
-         Ok(ref e) => client.unwrap(),
+         Ok(_) => client.unwrap(),
          Err(e) => panic!("{e}")
      };
 

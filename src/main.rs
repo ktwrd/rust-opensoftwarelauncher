@@ -48,7 +48,7 @@ pub async fn cli_engine(mut args: Args, d: Details) {
 
     let mut args3 = vec![];
 
-    for x in 0..args.len() {
+    for _ in 0..args.len() {
         let temp = args.nth(0);
         args3.push(temp.clone().unwrap_or(null.to_string()));
 
@@ -64,7 +64,7 @@ pub async fn cli_engine(mut args: Args, d: Details) {
 
         "--get"     => cli_get(d).await,
         "--connect" => {let res = osl_connect(d.url).await; println!("Connected\nVersion: {}", res.version)},
-        "--products" => cli_version(args3[2].to_string()).await,
+        "--products" => cli_version().await,
         "--info"    => cli_info(args3, d.clone()).await,
         "--install" => cli_install(args3).await,
         "--redeem"     => cli_key(args3, d.clone()).await,
@@ -100,7 +100,7 @@ pub async fn cli_key(arg3: Vec<String>, d: Details) {
 
 pub async fn cli_install(arg3: Vec<String>) {
 
-    let builds = read_rel();
+   // let builds = read_rel();
 
 
 
@@ -125,7 +125,7 @@ pub async fn cli_info(arg3: Vec<String>, d: Details) {
         if p[x].productname == arg3[2] {
 
             let stream = streams(arg3.clone(), p[x].streams.clone(), d.clone()).await;
-            
+           /* 
             let res = match &arg3[3] as &str {
 
                 "--ProductID" | "--productid" => &p[x].productid,
@@ -135,6 +135,13 @@ pub async fn cli_info(arg3: Vec<String>, d: Details) {
 
             println!("{res}");
         
+            */
+         
+            println!("ID: {}\nStreams:\n{}", p[x].productid, stream);
+            
+
+            println!("Product not found, try running --products or --redeem to redeem a software license key")
+
         };
     };
 
@@ -143,16 +150,17 @@ pub async fn cli_info(arg3: Vec<String>, d: Details) {
 
 pub async fn streams(arg3: Vec<String>, s: Vec<BuildStream>, d: Details) -> String {
 
+        
     if arg3[4] == "" {
         
         let mut res = String::new();
 
         for x in 0..s.len() {
 
-            let newstring = format!("ProductName {}\nProductVersion: {}\nBranchName: {}", 
+            let newstring = format!("   ProductName {}\n   ProductVersion: {}\n   BranchName: {}", 
                                     s[x].productname, s[x].productversion, s[x].branchname);
 
-            res += &format!("{}\n\n", newstring);
+            res += &format!("{}\n", newstring);
         };
 
         return res
@@ -193,7 +201,7 @@ pub async fn cli_get(d: Details) {
 
 
 }
-pub async fn cli_version(arg: String) {
+pub async fn cli_version() {
 
     let builds = read_rel();
 
