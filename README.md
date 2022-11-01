@@ -1,6 +1,6 @@
 <h1 align="center">
 
-Open Software Launcher (crab edition)
+OSL_CLI (crab edition)
 
   
   [![Stars](https://img.shields.io/github/stars/DeclanChidlow/Template?style=flat-square&logoColor=white)](https://github.com/ktwrd/rust-opensoftwarelauncher/stargazers)
@@ -11,4 +11,4 @@ Open Software Launcher (crab edition)
   [![Licence](https://img.shields.io/github/license/DeclanChidlow/Template?style=flat-square&logoColor=white)](https://github.com/DeclanChidlow/Template/blob/main/LICENCE)
 </h1>
 
-A Rust implemntation of OpenSoftwareLauncher
+A first party CLI for OpenSoftwareLauncher server
