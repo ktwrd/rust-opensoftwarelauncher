@@ -140,6 +140,7 @@ pub async fn cli_info(arg3: Vec<String>, d: Details) {
             println!("ID: {}\nStreams:\n{}", p[x].productid, stream);
             
 
+        }else {
             println!("Product not found, try running --products or --redeem to redeem a software license key")
 
         };
