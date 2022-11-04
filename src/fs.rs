@@ -2,7 +2,7 @@ use std::fs;
 use std::fs::File;
 
 use std::{
-    io::{Read},
+    io::{Read, Write},
 };
 
 use crate::structs::details::Details;
@@ -21,19 +21,64 @@ pub async fn osl_install(payload: String) {
 
 }
 
+pub fn file_init() {
+
+    let mut file = File::create("details.json")
+        .expect("file could not be created");
+
+}
+
+
+pub fn write_details() -> Details {
+
+
+    let mut json = 
+            b"{
+    \"url\": \"\",
+    \"username\": \"\",
+    \"password\": \"\",
+    \"token\": \"\"
+}";
+
+    let mut file = File::create("details.json")
+        .expect("Failed to open details.json");
+
+    file.write_all(json);
+
+    panic!("Please insert details to details.json")
+}
+
 pub fn details_deser() -> Details {
     
-    let mut details_json = File::open("details.json")
-        .expect("File \"details.json\" not found");
+    
+    let mut file_test = File::open("details.json");
+
+    match file_test {
+        Ok(_) => {},
+        Err(_) => file_init(),
+    };
+
+    let mut details_file = File::open("details.json")
+        .expect("Failed to open file details.json");
+
 
     let mut details_str = String::new();
 
-    details_json.read_to_string(&mut details_str)
+    details_file.read_to_string(&mut details_str)
         .expect("Failed writing details.json");
 
-    let details: Details = serde_json::from_str(&details_str).expect("Failed to deser details.json");
+
+    let dets = serde_json::from_str(&details_str);
+
+    let details = match dets {
+
+        Ok(_) => dets.unwrap(),
+        Err(e) => write_details(),
+    };
+        
 
     return details
+
 }
 
 
